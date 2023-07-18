@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Real-Time Shared Text</title>
+</head>
+<body>
+  <h1>Real-Time Shared Text</h1>
+  <textarea id="shared-text" rows="10" cols="50"></textarea>
+
+  <script>
+    const sharedText = document.getElementById('shared-text');
+    const ws = new WebSocket('ws://localhost:3000'); // Здесь укажите адрес вашего WebSocket сервера
+
+    ws.onmessage = (event) => {
+      const newText = event.data;
+      sharedText.value = newText;
+    };
+
+    sharedText.addEventListener('input', () => {
+      const newText = sharedText.value;
+      ws.send(newText);
+    });
+  </script>
+</body>
+</html>
